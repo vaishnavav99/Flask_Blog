@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+.fa {
+  padding: 20px;
+  font-size: 30px;
+  width: 30px;
+  text-align: center;
+  text-decoration: none;
+  margin: 5px 2px;
+  border-radius: 50%;
+}
+
+.fa:hover {
+    opacity: 0.7;
+}
+
+
+{% block content %}
+    <h1>About Project</h1>
+    <br>
+    <br>
+    <div class="content-section">
+        <div class="media">
+          <img class="rounded-circle account-img" src="{{ url_for('static', filename='profile_pics/vaishnav.jpg') }}">
+          <div class="media-body" style="text-align: center;">
+            <h5>Made By</h5>
+            <h2 class="account-heading">Vaishnav A V</h2>
+            <p class="text-secondary">vaishnavav96@gmail.com</p>
+            <a href="https://www.instagram.com/vaishnavav99/"><i class="fa fa-instagram"></i></a> &nbsp;&nbsp;
+            <a href="https://github.com/vaishnavav99"> <i class="fa fa-github"></i></a>&nbsp;&nbsp;
+            <a href="https://www.linkedin.com/in/vaishnav-a-v-6b95b215b/"><i class="fa fa-linkedin"></i></a>
+          </div>
+        </div>
+    </div>
+{% endblock content %}

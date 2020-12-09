@@ -1,0 +1,84 @@
+{% extends "layout.html" %}
+{% block content %}
+    {% if current_user.is_authenticated %}
+        {% for post in posts.items %}
+            <article class="media content-section">
+              <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+              <div class="media-body">
+                <div class="article-metadata">
+                  <a class="mr-2" href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a>
+                  <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small>
+                </div>
+                <h4><a class="article-title" href="{{ url_for('post', post_id=post.id) }}">{{ post.title }}</a></h4>
+                <p class="article-content">{{ post.content }}</p>
+                {% if post.image_file != None %}
+                <a href="{{ url_for('static', filename='posts/' + post.image_file) }}">
+                  <img class="pic rounded mx-auto d-block" src="{{ url_for('static', filename='posts/' + post.image_file) }}"></a>
+
+                {% endif %}
+                    {% if post.id in y %}
+                      <a class="btn btn-info mb-4" href="{{ url_for('like_post', post_id=post.id) }}">Unlike</a>
+                      
+                    {% else %}
+                  
+                      <a class="btn btn-info mb-4" href="{{ url_for('like_post', post_id=post.id) }}">Like</a>
+    
+                    {%endif %}
+                  {% if post.id in d.keys() %}
+                    <p> {{d[post.id]}} <i class="fa fa-heart " aria-hidden="true"></i></p>
+                  {%endif %}
+
+                <small class="card">
+                <div class="card-body"><h5 class="card- tittle">Comment</h5>
+                {% for x in comments %}
+                  {% for comment in x %}
+                    {% if comment.post_id == post.id %}
+                      
+                      <p class="article-content card-text"><small class="text-muted">{{ comment.date_posted.strftime('%Y-%m-%d') }} </small> &nbsp;   <a class="mr-2" href="{{ url_for('user_posts', username=comment.authorc.username) }}">{{ comment.authorc.username }} :</a> {{comment.comment}} </p>
+                    {%endif %}
+                  {% endfor %}
+                {% endfor %}
+              </div>
+              </small>
+              <br>
+                  <form action="{{ url_for('comment_post', post_id=post.id) }}" method="POST">
+                    {{ form.hidden_tag() }}
+                    <div class="input-group mb-3">
+                  {{ form.comments(class="form-control",placeholder="comment") }}
+                  <div class="input-group-append">
+                    <button class="btn btn-info " style="color: white;" type="submit"><i class="fa fa-caret-right " aria-hidden="true"></i></button>
+                  </div>
+                  
+                </div>
+                </form>
+              </div>
+            </article>
+            
+        {% endfor %}
+        {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+          {% if page_num %}
+            {% if posts.page == page_num %}
+            
+              <a class="btn btn-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+              <a class="btn btn-outline-info mb-4" href="{{ url_for('home', page=page_num) }}">{{ page_num }}</a>
+            {% endif %}
+          {% else %}
+            ...
+          {% endif %}
+        {% endfor %}
+    {% else %}
+    <article class="media content-section">
+      <img class="rounded-circle article-img" src="{{ url_for('static', filename='profile_pics/default.jpg') }}">
+      <div class="media-body">
+        <div class="article-metadata">
+          <a class="mr-2" href="{{ url_for('login') }}">Unknown</a>
+          <small class="text-muted"></small>
+        </div>
+        <h4>Join US</a></h4>
+        <p> Simply Create an account</p>
+          <img class="pic rounded mx-auto d-block" src="{{ url_for('static', filename='posts/home.jpg') }}">
+        </div>
+    </article>
+    {% endif %}
+{% endblock content %}
